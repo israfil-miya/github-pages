@@ -147,18 +147,26 @@ function setActiveNav() {
 
 window.addEventListener('scroll', setActiveNav);
 
+// Helper function to get suffix from text
+function getSuffix(text) {
+    if (text.includes('+')) return '+';
+    if (text.includes('%')) return '%';
+    return '';
+}
+
 // Counter animation for stats
 function animateCounter(element, target, duration = 2000) {
     let start = 0;
     const increment = target / (duration / 16);
+    const suffix = getSuffix(element.textContent);
     
     const timer = setInterval(() => {
         start += increment;
         if (start >= target) {
-            element.textContent = target + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+            element.textContent = target + suffix;
             clearInterval(timer);
         } else {
-            element.textContent = Math.floor(start) + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+            element.textContent = Math.floor(start) + suffix;
         }
     }, 16);
 }
@@ -198,7 +206,7 @@ document.querySelectorAll('.portfolio-item').forEach(item => {
     });
     
     item.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(-10px)';
+        this.style.transform = '';
     });
 });
 
